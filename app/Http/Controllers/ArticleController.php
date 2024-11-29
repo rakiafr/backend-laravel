@@ -13,12 +13,19 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        try{
+        try {
+            $articles=Article::with('scategorie')->get(); // Inclut la sous catégorie liée;
+            return response()->json($articles,200);
+            } catch (\Exception $e) {
+            return response()->json("Sélection impossible {$e->getMessage()}");
+            }
+        
+        /* try{
         //with yjib sous categorie mte3ou
         $articles=Article::with("scategorie")->get();
         return response()->json($articles);
         }catch(Exception $e){
-        return response()->json($e->getMessage(),$e->getCode());}
+        return response()->json($e->getMessage(),$e->getCode());} */
     }
 
     /**
@@ -40,8 +47,7 @@ class ArticleController extends Controller
             $article->save();
             return response()->json($article);
         }catch(\Exception $e){
-            return response()->json($e->getMessage(),$e->getCode());}
-
+    return response()->json("insertion impossible {$e->getMessage()}");}
     }
 
     /**
